@@ -3,7 +3,6 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", (req, res) => {
-    // Mensajes de log con distintos niveles para pruebas
     req.logger.debug("Mensaje de depuración generado.");
     req.logger.http("Petición HTTP capturada.");
     req.logger.info("Mensaje informativo registrado.");
