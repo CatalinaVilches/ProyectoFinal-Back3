@@ -13,8 +13,8 @@ describe('Test avanzado', () => {
         const mockUser = {
             first_name: "Catalina",
             last_name: "vilches",
-            email: "cata.vilches@coderhouse.com", // email original
-            password: "Pass"               // contraseña más segura
+            email: "cata.vilches@coderhouse.com", 
+            password: "Pass"               
         };
 
         const res = await requester.post('/api/sessions/register').send(mockUser);
@@ -26,7 +26,7 @@ describe('Test avanzado', () => {
     it('/api/sessions/login Debe loguear correctamente al usuario y devolver una COOKIE', async function () {
         const mockUser = {
             email: 'cata.vilches@coderhouse.com',
-            password: 'Pass'  // misma contraseña que el registro
+            password: 'Pass' 
         };
 
         const result = await requester.post('/api/sessions/login').send(mockUser);
@@ -53,8 +53,6 @@ describe('Test avanzado', () => {
         expect(res.body).to.have.property('payload');
         expect(res.body.payload).to.have.property('email', 'cata.vilches@coderhouse.com');
     });
-
-    // Pruebas que deben devolver error
 
     it('POST /api/users debe responder con 400 si no se envía first_name', async () => {
         const incompleteUser = {
