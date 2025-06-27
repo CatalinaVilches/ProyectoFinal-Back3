@@ -34,14 +34,11 @@ const createAdoption = async (req, res) => {
     if (pet.adopted)
       return res.status(400).send({ status: "error", error: "Pet is already adopted" });
 
-    // Actualizar relación usuario-mascota
     user.pets.push(pet._id);
     await usersService.update(user._id, { pets: user.pets });
 
-    // Marcar mascota como adoptada y asignar dueño
     await petsService.update(pet._id, { adopted: true, owner: user._id });
 
-    // Crear registro de adopción
     const createdAdoption = await adoptionsService.create({ owner: user._id, pet: pet._id });
 
     res.status(201).send({
