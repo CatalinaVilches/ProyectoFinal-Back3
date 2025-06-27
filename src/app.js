@@ -20,12 +20,10 @@ import { errorHandler } from './middlewares/errorHandler.js';
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Conexión a MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => logger.info('✅ Conectado a la base de datos MongoDB'))
   .catch(error => logger.error('❌ Error al conectar con MongoDB:', error));
 
-// Configuración de Swagger
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -40,13 +38,11 @@ const swaggerOptions = {
 
 const swaggerSpecs = swaggerJSDoc(swaggerOptions);
 
-// Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(middlewareLogger);
 app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpecs));
 
-// Rutas principales
 app.use('/api/users', usersRouter);
 app.use('/api/pets', petsRouter);
 app.use('/api/adoptions', adoptionsRouter);
@@ -54,13 +50,10 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/mocks', mocksRouter);
 app.use('/loggerTest', loggertestRouter);
 
-// Ruta no encontrada
 app.use((req, res) => {
   res.status(404).json({ ok: false, mensaje: '📭 Ruta no encontrada' });
 });
 
-// Manejo de errores global
 app.use(errorHandler);
 
-// Inicio del servidor
 app.listen(PORT, () => logger.info(`🚀 Servidor en funcionamiento en el puerto ${PORT}`));
