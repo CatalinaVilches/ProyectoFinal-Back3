@@ -1,6 +1,5 @@
 import winston from 'winston';
 
-// Definición de niveles personalizados de log
 const customLevels = {
   levels: {
     fatal: 0,
@@ -20,12 +19,11 @@ const customLevels = {
   }
 };
 
-// Entorno actual: 'development' por defecto
+
 const ENV = process.env.NODE_ENV || 'development';
 
 winston.addColors(customLevels.colors);
 
-// Configuración de salidas (transports)
 const transportList = [
   new winston.transports.Console({
     level: ENV === 'development' ? 'debug' : 'info',
@@ -39,7 +37,6 @@ const transportList = [
   })
 ];
 
-// En producción se guarda log de errores en archivo
 if (ENV === 'production') {
   transportList.push(
     new winston.transports.File({
@@ -53,13 +50,11 @@ if (ENV === 'production') {
   );
 }
 
-// Exportación del logger personalizado
 export const logger = winston.createLogger({
   levels: customLevels.levels,
   transports: transportList
 });
 
-// Middleware que inyecta el logger en cada request
 export const middlewareLogger = (req, res, next) => {
   req.logger = logger;
   next();
