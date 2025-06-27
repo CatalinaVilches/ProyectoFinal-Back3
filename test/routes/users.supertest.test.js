@@ -13,7 +13,7 @@ describe('Test de Usuarios', () => {
         userMock = {
             first_name: "catalina",
             last_name: "vilches",
-            email: `cata.vilches@coderhouse.com`, // email único para evitar conflictos
+            email: `cata.vilches@coderhouse.com`,
             password: "123"
         };
 
@@ -22,7 +22,6 @@ describe('Test de Usuarios', () => {
     });
 
     after(async () => {
-        // Limpieza: eliminar usuario creado en before
         if (createUser && createUser._id) {
             await requester.delete(`/api/users/${createUser._id}`);
         }
@@ -81,8 +80,6 @@ describe('Test de Usuarios', () => {
         expect(res.body.message).to.equal("Usuario no encontrado");
     });
 
-    // Tests que deben fallar
-
     it('GET /api/users/:uid con uid inexistente debe devolver error', async () => {
         const uidInexistente = "683c98b6dd86a18a3cf4163d";
         const res = await requester.get(`/api/users/${uidInexistente}`);
@@ -92,11 +89,7 @@ describe('Test de Usuarios', () => {
     });
 
     it('PUT /api/users/:uid no debe permitir actualizar email si ya existe', async () => {
-        // Aquí necesitas que exista un usuario con ese email para probar la colisión
-        // Por ejemplo, primero creas un usuario con ese email (solo si no existe)
         const existingEmail = "Federico_Saldana@coderhouse.com";
-
-        // Intentamos actualizar otro usuario (puede ser el mismo creado antes, solo como prueba)
         const userToUpdateId = createUser ? createUser._id : '683c98b6dd86a18a3cf41633';
         const newEmail = { email: existingEmail };
 
