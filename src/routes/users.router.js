@@ -5,14 +5,12 @@ import uploader from '../utils/uploader.js';
 
 const router = Router();
 
-// Rutas de usuarios
 router.get('/', usersController.getAllUsers);
 router.post('/', usersController.createUser);
 router.get('/:uid', usersController.getUser);
 router.put('/:uid', usersController.updateUser);
 router.delete('/:uid', usersController.deleteUser);
 
-// Subida de documentos de usuario
 router.post(
   '/:uid/documents',
   uploader.array('documents'),
