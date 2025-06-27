@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: API de Sesiones de Usuarios
+  version: 1.0.1
+  description: Documentación para la gestión de registro y login de usuarios
+
+paths:
+  /api/sessions/register:
+    post:
+      summary: Crear una nueva cuenta de usuario
+      tags:
+        - Sesiones
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegistroInput"
+      responses:
+        "201":
+          description: Registro exitoso de usuario
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegistroRespuesta"
+
+components:
+  schemas:
+    RegistroRespuesta:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Estado de la operación
+          example: success
+        payload:
+          type: string
+          description: ID del usuario creado
+          example: "6854d342ae48c328bf3f121a"
+    RegistroInput:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: "Carlos"
+        apellido:
+          type: string
+          example: "López"
+        correo:
+          type: string
+          example: "carlos.lopez@ejemplo.com"
+        contraseña:
+          type: string
+          example: "miPassword123"
+      required:
+        - nombre
+        - apellido
+        - correo
+        - contraseña

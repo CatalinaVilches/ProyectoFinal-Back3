@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: API de Gestión de Mascotas
+  version: 1.0.1
+  description: Documentación para administrar mascotas en el sistema
+
+paths:
+  /api/pets:
+    get:
+      summary: Obtener todas las mascotas registradas
+      tags:
+        - Mascotas
+      responses:
+        "200":
+          description: Lista de mascotas recuperada con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Mascota"
+    post:
+      summary: Añadir una nueva mascota al sistema
+      tags:
+        - Mascotas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MascotaInput"
+      responses:
+        "201":
+          description: Mascota creada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mascota"
+
+components:
+  schemas:
+    Mascota:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador único generado por MongoDB
+          example: "683c9925dd86a18a3cf41644"
+        nombre:
+          type: string
+          description: Nombre asignado a la mascota
+          example: "Luna"
+        especie:
+          type: string
+          description: Especie o raza de la mascota
+          example: "Caniche"
+        fechaNacimiento:
+          type: string
+          format: date
+          description: Fecha de nacimiento de la mascota
+          example: "2015-05-10"
+        adoptada:
+          type: boolean
+          description: Indica si la mascota ha sido adoptada o no
+          example: false
+    MascotaInput:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: "Luna"
+        especie:
+          type: string
+          example: "Caniche"
+        fechaNacimiento:
+          type: string
+          format: date
+          example: "2015-05-10"
+      required:
+        - nombre
+        - especie
+        - fechaNacimiento

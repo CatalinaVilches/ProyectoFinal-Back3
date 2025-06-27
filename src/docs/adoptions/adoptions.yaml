@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: API de Adopciones
+  version: 1.0.1
+  description: Servicio para gestionar solicitudes de adopción de mascotas
+
+paths:
+  /api/adoptions/{userId}/{petId}:
+    post:
+      summary: Crear una solicitud para adoptar una mascota
+      tags:
+        - Adopciones
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Identificador del usuario solicitante
+          schema:
+            type: string
+        - name: petId
+          in: path
+          required: true
+          description: Identificador de la mascota a adoptar
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note:
+                  type: string
+                  description: Mensaje opcional del solicitante
+                  example: "Estoy interesado en adoptar esta mascota."
+      responses:
+        "201":
+          description: Solicitud de adopción registrada correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespuestaAdopcion"
+        "400":
+          description: Petición inválida o datos incorrectos
+
+components:
+  schemas:
+    RespuestaAdopcion:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        message:
+          type: string
+          example: "Adopción registrada exitosamente"

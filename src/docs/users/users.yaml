@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: API de Gestión de Usuarios
+  version: 1.0.1
+  description: Documentación oficial para la administración de usuarios en la plataforma
+
+paths:
+  /api/users:
+    get:
+      summary: Listar todos los usuarios registrados
+      tags:
+        - Usuarios
+      responses:
+        "200":
+          description: Lista de usuarios recuperada correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Usuario"
+    post:
+      summary: Registrar un nuevo usuario
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioInput"
+      responses:
+        "201":
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+
+  /api/users/{userId}:
+    get:
+      summary: Obtener detalles de un usuario específico
+      tags:
+        - Usuarios
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario localizado con éxito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+        "404":
+          description: Usuario no encontrado
+    put:
+      summary: Modificar datos de un usuario mediante su ID
+      tags:
+        - Usuarios
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UsuarioInput"
+      responses:
+        "200":
+          description: Usuario actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+        "404":
+          description: Usuario no localizado para actualizar
+    delete:
+      summary: Eliminar un usuario especificado por ID
+      tags:
+        - Usuarios
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Usuario eliminado exitosamente
+        "404":
+          description: Usuario no encontrado para eliminación
+
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Identificador único generado automáticamente
+        nombre:
+          type: string
+          description: Nombre del usuario
+        apellido:
+          type: string
+          description: Apellido del usuario
+        correo:
+          type: string
+          description: Correo electrónico del usuario
+        contraseña:
+          type: string
+          description: Contraseña encriptada del usuario
+      example:
+        _id: "604cb554311d68f491ba5781"
+        nombre: "Pedro"
+        apellido: "González"
+        correo: "pedro.gonzalez@ejemplo.com"
+        contraseña: "$2b$10$ZyxWvuTsRqPoNmKlJiHgFfedcbA"
+        rol: administrador
+        mascotas: []
+    UsuarioInput:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: "Pedro"
+        apellido:
+          type: string
+          example: "González"
+        correo:
+          type: string
+          example: "pedro.gonzalez@ejemplo.com"
+        contraseña:
+          type: string
+          example: "contraseña123"
+      required:
+        - nombre
+        - apellido
+        - correo
+        - contraseña
