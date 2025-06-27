@@ -3,7 +3,7 @@ import { createHash, passwordValidation } from "../utils/index.js";
 import jwt from "jsonwebtoken";
 import UserDTO from "../dto/User.dto.js";
 
-const JWT_SECRET = "tokenSecretJWT"; // Ideal: poner esto en variables de entorno
+const JWT_SECRET = "tokenSecretJWT";
 
 const register = async (req, res) => {
   try {
