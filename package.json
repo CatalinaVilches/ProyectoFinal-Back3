@@ -4,10 +4,10 @@
   "description": "",
   "main": "app.js",
   "type": "module",
-  "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
-    "test": "mocha test/supertest.test.js"
+   "scripts": {
+    "start": "cross-env NODE_ENV=production node ./src/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon ./src/app.js",
+    "test": "cross-env NODE_ENV=test mocha \"test/**/*.test.js\" --timeout 10000 --exit"
   },
   "keywords": [],
   "author": "",
